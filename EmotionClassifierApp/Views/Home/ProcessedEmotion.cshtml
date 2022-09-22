@@ -1,0 +1,42 @@
+﻿@model Prediction
+
+@{
+    ViewData["Title"] = "Precessed Emotion";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Emocion Detectada</h1>
+    @switch (@Model.Emotion)
+    {
+        case "contento":
+            <div class="alert-success">
+                <h2>@Model.Emotion <i class="bi bi-emoji-laughing"></i></h2>
+            </div>
+            break;
+        case "tristeza":
+            <div class="alert-dark">
+                <h2>@Model.Emotion <i class="bi bi-emoji-frown"></i></h2>
+            </div>
+            break;
+        case "miedo":
+            <div class="alert-secondary">
+                <h2>@Model.Emotion <i class="bi bi-emoji-dizzy"></i></h2>
+            </div>
+            break;
+        case "enfado":
+            <div class="alert-danger">
+                <h2>@Model.Emotion  <i class="bi bi-emoji-angry"></i></h2>
+            </div>
+            break;
+        case "amor":
+            <div class="alert-info">
+                <h2>@Model.Emotion  <i class="bi bi-emoji-heart-eyes"></i></h2>
+            </div>
+            break;
+        case "sorpresa":
+            <div class="alert-warning">
+                <h2>@Model.Emotion <i class="bi bi-emoji-smile-upside-down"></i></h2>
+            </div>
+            break;
+    }
+</div>
