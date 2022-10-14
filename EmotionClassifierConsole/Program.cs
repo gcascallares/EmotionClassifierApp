@@ -8,6 +8,8 @@ var context = new MLContext();
 //ruta de donde se obtienen los datos
 
 string emotionsFile = "/Users/nicolaslucero/development/personal/EmotionClassifierApp/Data/emotions.txt";
+//string emotionsFile = "C:\\Users\\gcasc\\source\\repos\\EmotionClassifierApp\\Data\\emotions.txt";
+
 var dataFile = context.Data.LoadFromTextFile<MessageData>(
     emotionsFile,
     separatorChar: ',',
@@ -63,4 +65,5 @@ Console.WriteLine($"************************************************************
 //ruta donde se guardara el modelo entrenado
 
 string savedLocation = "/Users/nicolaslucero/development/personal/emotionClassifierModel.zip";
+string savedLocation = "C:\\Users\\gcasc\\source\\repos\\EmotionClassifierApp\\ModelClassifier\\emotionClassifierModel.zip";
 context.Model.Save(modeloEntrenado, dataFile.Schema, savedLocation);
