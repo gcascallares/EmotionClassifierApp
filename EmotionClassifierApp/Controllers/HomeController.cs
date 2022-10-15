@@ -27,15 +27,12 @@ namespace EmotionClassifierApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EmotionProcessing(MessageData messagedata)
+        public IActionResult EmotionProcessing(MessageData messagedata)
         {
-            Prediction prediction = new Prediction();
-            if (ModelState.IsValid)
-            {
-                prediction = _predictionService.GeneratePrediction(messagedata);
-                _logger.LogInformation("the emotion detected is: {0}", prediction.Emotion);
-            }
-            return View("ProcessedEmotion", prediction);
+            Prediction prediction = new Prediction();           
+            prediction = _predictionService.GeneratePrediction(messagedata);
+            _logger.LogInformation("the emotion detected is: {0}", prediction.Emotion);
+            return Json (new { prediction } );
         }
 
 

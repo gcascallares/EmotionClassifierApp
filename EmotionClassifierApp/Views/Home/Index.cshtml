@@ -1,8 +1,58 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model MessageData
+
+@{
+    ViewData["Title"] = "Clasificador de emociones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bienvenidos al proyecto de invetigacion de Programacion Avanzada 2</h1>
-    <p>Este proyecto es un ejemplo de uso de la libreria ML de microsoft.</p>
+
+<script>
+
+    
+
+    const sendEmotion = () => {
+        $(".lds-grid").show();
+        if (!$("#message").val()) return false;
+        debugger;
+        const data = { "message": $("#message").val() };
+        if ($("#result-container").find('div').length > 0)
+            $("#result-container").find('div').remove();
+        $.post('@Url.Action("EmotionProcessing", "Home")', data, function (res, status) {
+            const { prediction } = res;
+            $(".lds-grid").hide();
+            $("#result-container").append(`
+                <div class="feeling-container">
+                    <div style="font-size: 40px;">Sentimiento detectado</div>
+                    <div style="font-size: 60px;">${prediction.emotion}</div>
+                    <img src="./assets/emoji/${prediction.emotion}.png" style="width: 50%;"/>
+                </div>
+            `);
+            
+        });
+    }
+
+</script>
+
+
+
+    <div class="card p-5 d-flex justify-content-center" style="height: 80vh;">
+        <div class="row">
+            <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+                <h1>Ingresá la frase</h1>
+                <form asp-controller="Home" asp-action="EmotionProcessing" method="post" class="text-center" style="width: 100%;">
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                    <textarea asp-for="Message" class="form-control mb-4" id="message"></textarea>
+                    <input type="button" class="btn btn-success" onclick="sendEmotion()" value="Procesar" />
+                </form>
+            </div>
+            <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+                <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                <div id="result-container">
+                    <div class="flex-container">
+                        <img style="width: 70%;" src="~/assets/intensamente.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    
 </div>

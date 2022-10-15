@@ -11,7 +11,7 @@
     "EmotionClassifierApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7189;http://localhost:5189",
+      "applicationUrl": "http://localhost:22167",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
