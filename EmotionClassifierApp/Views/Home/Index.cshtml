@@ -7,27 +7,22 @@
 
 
 <script>
-
-    
-
     const sendEmotion = () => {
-        $(".lds-grid").show();
-        if (!$("#message").val()) return false;
-        debugger;
+        
+        if (!$("#message").val()) {
+            $("#error").show();
+            return false;
+        };
+        $(`.emoji-container`).removeClass("selected");
+        $("#error").hide();
+        $(".lds-ellipsis").show();
+        
         const data = { "message": $("#message").val() };
-        if ($("#result-container").find('div').length > 0)
-            $("#result-container").find('div').remove();
         $.post('@Url.Action("EmotionProcessing", "Home")', data, function (res, status) {
             const { prediction } = res;
-            $(".lds-grid").hide();
-            $("#result-container").append(`
-                <div class="feeling-container">
-                    <div style="font-size: 40px;">Sentimiento detectado</div>
-                    <div style="font-size: 60px;">${prediction.emotion}</div>
-                    <img src="./assets/emoji/${prediction.emotion}.png" style="width: 50%;"/>
-                </div>
-            `);
             
+            $(`#${prediction.emotion}`).addClass("selected");
+            $(".lds-ellipsis").hide();
         });
     }
 
@@ -38,18 +33,44 @@
     <div class="card p-5 d-flex justify-content-center" style="height: 80vh;">
         <div class="row">
             <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
-                <h1>Ingresá la frase</h1>
+                <h2>Ingresá la frase, detectaremos la emoción.</h2>
                 <form asp-controller="Home" asp-action="EmotionProcessing" method="post" class="text-center" style="width: 100%;">
                     <div class="text-danger" asp-validation-summary="All"></div>
-                    <textarea asp-for="Message" class="form-control mb-4" id="message"></textarea>
-                    <input type="button" class="btn btn-success" onclick="sendEmotion()" value="Procesar" />
+                    <textarea asp-for="Message" class="mb-4" id="message"></textarea>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <input type="button" class="button" onclick="sendEmotion()" value="Procesar" />
+                        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                    <div id="error">Tu frase no puede estar vacía.</div>
                 </form>
             </div>
             <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
-                <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                 <div id="result-container">
                     <div class="flex-container">
-                        <img style="width: 70%;" src="~/assets/intensamente.png" />
+                        <div id="enfado" class="emoji-container">
+                            <img class="emoji" src="~/assets/emoji/enfado.png" />
+                            <div class="emoji-text">Enfado</div>
+                        </div>
+                        <div id="tristeza" class="emoji-container">
+                            <img class="emoji" src="~/assets/emoji/tristeza.png" />
+                            <div class="emoji-text">Tristeza</div>
+                        </div>
+                        <div id="amor" class="emoji-container">
+                            <img class="emoji" src="~/assets/emoji/amor.png" />
+                            <div class="emoji-text">Amor</div>
+                        </div>
+                        <div id="contento" class="emoji-container">
+                            <img class="emoji" src="~/assets/emoji/contento.png" />
+                            <div class="emoji-text">Contento</div>
+                        </div>
+                        <div id="miedo" class="emoji-container">
+                            <img class="emoji" src="~/assets/emoji/miedo.png" />
+                            <div class="emoji-text">Miedo</div>
+                        </div>
+                        <div id="sorpresa" class="emoji-container">
+                            <img class="emoji" src="~/assets/emoji/sorpresa.png" />
+                            <div class="emoji-text">Sorpresa</div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -25,39 +25,7 @@ namespace EmotionClassifierApp.Service
             var savedModel = context.Model.Load(dir, out var schema);
             var predictionEngine = context.Model.CreatePredictionEngine<MessageData, Prediction>(savedModel);
             Prediction prediction = predictionEngine.Predict(messageData);
-            FillPredictionData(prediction);
             return prediction;
-        }
-
-        private void FillPredictionData (Prediction prediction)
-        {
-            switch (prediction.Emotion)
-            {
-                case "amor":
-                    prediction.BackgroundColor = "pink";
-                    prediction.FontColor = "black";
-                    break;
-                case "tristeza":
-                    prediction.BackgroundColor = "blue";
-                    prediction.FontColor = "white";
-                    break;
-                case "enfado":
-                    prediction.BackgroundColor = "red";
-                    prediction.FontColor = "white";
-                    break;
-                case "contento":
-                    prediction.BackgroundColor = "white";
-                    prediction.FontColor = "black";
-                    break;
-                case "miedo":
-                    prediction.BackgroundColor = "black";
-                    prediction.FontColor = "white";
-                    break;
-                case "sorpresa":
-                    prediction.BackgroundColor = "yellow";
-                    prediction.FontColor = "black";
-                    break;
-            }
         }
     }
 }
